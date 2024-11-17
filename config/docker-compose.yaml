@@ -1,0 +1,71 @@
+services:
+
+  traefik:
+    image: "traefik:2.3"
+    container_name: "traefik"
+    restart: unless-stopped
+    command:
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      - "--log.level=DEBUG" # DEBUG, PANIC, FATAL, ERROR, WARN, INFO
+      - "--log.filePath=/logs/traefik.log"
+      - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
+      - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
+      - "--entrypoints.web.http.redirections.entryPoint.to=websecure"
+      - "--entrypoints.web.http.redirections.entryPoint.scheme=https"
+      - "--entrypoints.web.http.redirections.entrypoint.permanent=true"
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "/mnt/data/traefik/logs/:/logs/"
+      - "/mnt/data/letsencrypt:/letsencrypt"
+
+  geometrierechner:
+    image: ghcr.io/christianwaldmann/geometrierechner:v0.0.2
+    container_name: geometrierechner
+    env_file: .env
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.geometrierechner.rule=Host(`geometrierechner.christianw.de`)"
+      - "traefik.http.routers.geometrierechner.entrypoints=websecure"
+      - "traefik.http.routers.geometrierechner.tls.certresolver=myresolver"
+
+  bookmarks-frontend:
+    image: ghcr.io/christianwaldmann/bookmarks-frontend:0.0.4
+    container_name: bookmarks-frontend
+    env_file: .env
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.bookmarks-frontend.rule=Host(`bookmarks.christianw.de`)"
+      - "traefik.http.routers.bookmarks-frontend.entrypoints=websecure"
+      - "traefik.http.routers.bookmarks-frontend.tls.certresolver=myresolver"
+    restart: unless-stopped
+
+  bookmarks-backend:
+    image: ghcr.io/christianwaldmann/bookmarks-backend:0.0.5
+    container_name: bookmarks-backend
+    restart: unless-stopped
+    volumes:
+      - /mnt/data/bookmarks/database:/database
+    env_file: .env
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.bookmarks-backend.rule=Host(`api.bookmarks.christianw.de`)"
+      - "traefik.http.routers.bookmarks-backend.entrypoints=websecure"
+      - "traefik.http.routers.bookmarks-backend.tls.certresolver=myresolver"
+
+  homepage:
+    image: ghcr.io/christianwaldmann/homepage:v0.0.1
+    container_name: homepage
+    env_file: .env
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.homepage.rule=Host(`christianw.de`)"
+      - "traefik.http.routers.homepage.entrypoints=websecure"
+      - "traefik.http.routers.homepage.tls.certresolver=myresolver"
+    restart: unless-stopped
