@@ -5,11 +5,14 @@ on:
     branches:
       - master
 
-permissions: write-all
-
 jobs:
   terraform:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      repository-projects: write
+      id-token: write
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
@@ -34,28 +37,20 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           SSH_PUBLIC_KEY: ${{ secrets.SSH_PUBLIC_KEY }}
       - name: Add comment
-        uses: actions/github-script@v6
+        uses: thollander/actions-comment-pull-request@v2
         env:
           PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const output = `#### Terraform Initialization: \`${{ steps.init.outcome }}\`
-            #### Terraform Plan: \`${{ steps.plan.outcome }}\`
+          comment_tag: execution
+          message: |
+            #### Terraform Initialization: `${{ steps.init.outcome }}`
+            #### Terraform Plan: `${{ steps.plan.outcome }}`
             
             <details>
             <summary>Show Plan</summary>
             
-            \`\`\`
-            ${process.env.PLAN}
-            \`\`\`
+            ```
+            ${{ env.PLAN }}
+            ```
             
             </details>
-            *`;
-            
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: output
-            })
