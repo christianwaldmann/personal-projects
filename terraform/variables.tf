@@ -6,3 +6,7 @@ variable "hcloud_token" {
 variable "hcloud_dns_token" {
     sensitive = true
 }
+
+variable "ssh_public_key" {
+    sensitive = true
+}
