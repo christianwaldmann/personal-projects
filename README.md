@@ -8,7 +8,7 @@ TODO: describe usage
 
 - bootstrap
 - backups
-- github actions -> run terraform e.g. nightly (store secrets in GH secrets)
+- github actions -> apply terraform nightly (store secrets in GH secrets) or on pushes to main, plan on PRs
 - renovate/dependabot
 - manage dns zone completely via terraform
 - tag all resources with the source repo
