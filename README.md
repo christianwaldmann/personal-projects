@@ -15,5 +15,6 @@ TODO: describe usage
 - check if "env_file" can be removed from docker compose file
 - replace domain in docker-compose with envsubst
 - sandbox env
+- troubleshoot if (and if yes why) mounting the volume fails after the first server with a new packer build
 
 - note: dependencies: 1. ssh key, 2. aws creds
