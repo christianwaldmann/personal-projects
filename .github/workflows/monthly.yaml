@@ -1,4 +1,4 @@
-name: Monthly
+name: Monthly Packer build
 
 on:
   schedule:
@@ -13,10 +13,10 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v3
       - name: Packer setup
-        uses: hashicorp/setup-packer@v1
+        uses: hashicorp/setup-packer@v3
       - name: Packer init and build
         run: |
-          ./scripts/packer.sh -no-color
+          ./scripts/packer.sh -color=false
         env:
           HCLOUD_TOKEN: ${{ secrets.HCLOUD_TOKEN }}
           HCLOUD_DNS_TOKEN: ${{ secrets.HCLOUD_DNS_TOKEN }}
@@ -26,6 +26,7 @@ jobs:
 
   terraform-plan:
     runs-on: ubuntu-latest
+    needs: packer
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
