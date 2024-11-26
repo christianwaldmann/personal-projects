@@ -53,23 +53,24 @@ jobs:
     needs: terraform-plan
     steps:
       - name: Prepare comment
+        id: prepare
         env:
-          INIT_STATUS: ${{ env.INIT_STATUS }}
-          PLAN_STATUS: ${{ env.PLAN_STATUS }}
+          INIT_STATUS: ${{ needs.terraform-plan.outputs.init-status }}
+          PLAN_STATUS: ${{ needs.terraform-plan.outputs.plan-status }}
         run: |
-          echo 'INIT_STATUS=$([[ ${{ env.INIT_STATUS }} == "success" ]] && echo "✅" || echo "❌")' >> "$GITHUB_OUTPUT"
-          echo 'PLAN_STATUS=$([[ ${{ env.PLAN_STATUS }} == "success" ]] && echo "✅" || echo "❌")' >> "$GITHUB_OUTPUT"
+          INIT_STATUS_ICON=$([[ "$INIT_STATUS" == "success" ]] && echo "✅" || echo "❌")
+          echo "INIT_STATUS_ICON=$INIT_STATUS_ICON" >> "$GITHUB_OUTPUT"
+          PLAN_STATUS_ICON=$([[ "$PLAN_STATUS" == "success" ]] && echo "✅" || echo "❌")
+          echo "PLAN_STATUS_ICON=$PLAN_STATUS_ICON" >> "$GITHUB_OUTPUT"
       - name: Add comment
         uses: thollander/actions-comment-pull-request@v2
         env:
-          INIT_STATUS: ${{ env.INIT_STATUS }}
-          PLAN_STATUS: ${{ env.PLAN_STATUS }}
           PLAN: ${{ needs.terraform-plan.outputs.plan }}
         with:
           comment_tag: execution
           message: |
-            #### Terraform Init: `${{ env.INIT_STATUS }}`
-            #### Terraform Plan: `${{ env.PLAN_STATUS }}`
+            #### Terraform Init: `${{ steps.prepare.outputs.INIT_STATUS_ICON }}`
+            #### Terraform Plan: `${{ steps.prepare.outputs.PLAN_STATUS_ICON }}`
             
             <details>
             <summary>Show Plan</summary>
