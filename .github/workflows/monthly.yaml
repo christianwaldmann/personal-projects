@@ -13,7 +13,7 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v3
       - name: Packer setup
-        uses: hashicorp/setup-packer@v1
+        uses: hashicorp/setup-packer@v3
       - name: Packer init and build
         run: |
           ./scripts/packer.sh -no-color
