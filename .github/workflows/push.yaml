@@ -1,0 +1,58 @@
+name: Push to Master
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch: # allow manual triggering
+
+jobs:
+  terraform-plan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+      - name: Terraform setup
+        uses: hashicorp/setup-terraform@v1
+      - name: Terraform init
+        id: init
+        run: |
+          ./scripts/terraform.sh init -no-color
+        env:
+          HCLOUD_TOKEN: ${{ secrets.HCLOUD_TOKEN }}
+          HCLOUD_DNS_TOKEN: ${{ secrets.HCLOUD_DNS_TOKEN }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          SSH_PUBLIC_KEY: ${{ secrets.SSH_PUBLIC_KEY }}
+      - name: Terraform plan
+        id: plan
+        run: |
+          ./scripts/terraform.sh plan -no-color -out terraform-plan.txt
+          plan=$(cat terraform-plan.txt)
+          {
+            echo "plan<<EOF"
+            echo "$terraform_plan"
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
+        env:
+          HCLOUD_TOKEN: ${{ secrets.HCLOUD_TOKEN }}
+          HCLOUD_DNS_TOKEN: ${{ secrets.HCLOUD_DNS_TOKEN }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          SSH_PUBLIC_KEY: ${{ secrets.SSH_PUBLIC_KEY }}
+      - name: Upload plan
+        uses: actions/upload-artifact@v4
+        with:
+          name: terraform-plan.txt
+
+  terraform-apply:
+    runs-on: ubuntu-latest
+    needs: terraform-plan
+    steps:
+      - name: Download plan
+        uses: actions/download-artifact@v4
+        with:
+          name: terraform-plan.txt
+      - name: Terraform apply
+        run: |
+          ./scripts/terraform.sh apply terraform-plan.txt
