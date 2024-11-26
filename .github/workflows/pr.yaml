@@ -6,13 +6,12 @@ on:
       - master
 
 jobs:
-  terraform:
+  terraform-plan:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      pull-requests: write
-      repository-projects: write
-      id-token: write
+    outputs:
+      init-status: ${{ steps.init.outcome }}
+      plan-status: ${{ steps.plan.outcome }}
+      plan: ${{ steps.plan.outputs.plan }}
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
@@ -20,7 +19,8 @@ jobs:
         uses: hashicorp/setup-terraform@v1
       - name: Terraform init
         id: init
-        run: ./scripts/terraform.sh init -no-color
+        run: |
+          ./scripts/terraform.sh init -no-color
         env:
           HCLOUD_TOKEN: ${{ secrets.HCLOUD_TOKEN }}
           HCLOUD_DNS_TOKEN: ${{ secrets.HCLOUD_DNS_TOKEN }}
@@ -29,22 +29,37 @@ jobs:
           SSH_PUBLIC_KEY: ${{ secrets.SSH_PUBLIC_KEY }}
       - name: Terraform plan
         id: plan
-        run: ./scripts/terraform.sh plan -no-color
+        run: |
+          terraform_plan=$(./scripts/terraform.sh plan -no-color)
+          echo "plan=${terraform_plan}" >> "$GITHUB_OUTPUT"
+
         env:
           HCLOUD_TOKEN: ${{ secrets.HCLOUD_TOKEN }}
           HCLOUD_DNS_TOKEN: ${{ secrets.HCLOUD_DNS_TOKEN }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           SSH_PUBLIC_KEY: ${{ secrets.SSH_PUBLIC_KEY }}
+
+  comment:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      repository-projects: write
+      id-token: write
+    needs: terraform-plan
+    steps:
       - name: Add comment
         uses: thollander/actions-comment-pull-request@v2
         env:
-          PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
+          INIT_STATUS: ${{ needs.terraform-plan.outputs.init-status }}
+          PLAN_STATUS: ${{ needs.terraform-plan.outputs.plan-status }}
+          PLAN: ${{ needs.terraform-plan.outputs.plan }}
         with:
           comment_tag: execution
           message: |
-            #### Terraform Initialization: `${{ steps.init.outcome }}`
-            #### Terraform Plan: `${{ steps.plan.outcome }}`
+            #### Terraform Initialization: `$INIT_STATUS`
+            #### Terraform Plan: `$PLAN_STATUS`
             
             <details>
             <summary>Show Plan</summary>
