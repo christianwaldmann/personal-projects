@@ -55,14 +55,14 @@ jobs:
       - name: Add comment
         uses: thollander/actions-comment-pull-request@v2
         env:
-          INIT_STATUS: ${{ needs.terraform-plan.outputs.init-status }}
-          PLAN_STATUS: ${{ needs.terraform-plan.outputs.plan-status }}
+          INIT_STATUS: $([[ ${{ env.INIT_STATUS }} == "success" ]] && echo "✅" || echo "❌")
+          PLAN_STATUS: $([[ ${{ env.PLAN_STATUS }} == "success" ]] && echo "✅" || echo "❌")
           PLAN: ${{ needs.terraform-plan.outputs.plan }}
         with:
           comment_tag: execution
           message: |
-            #### Terraform Init: `$([[ ${{ env.INIT_STATUS }} == "success" ]] && echo "✅" || echo "❌")`
-            #### Terraform Plan: `$([[ ${{ env.PLAN_STATUS }} == "success" ]] && echo "✅" || echo "❌")`
+            #### Terraform Init: `${{ env.INIT_STATUS }}`
+            #### Terraform Plan: `${{ env.PLAN_STATUS }}`
             
             <details>
             <summary>Show Plan</summary>
