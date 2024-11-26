@@ -52,11 +52,18 @@ jobs:
       id-token: write
     needs: terraform-plan
     steps:
+      - name: Prepare comment
+        env:
+          INIT_STATUS: ${{ env.INIT_STATUS }}
+          PLAN_STATUS: ${{ env.PLAN_STATUS }}
+        run: |
+          echo 'INIT_STATUS=$([[ ${{ env.INIT_STATUS }} == "success" ]] && echo "✅" || echo "❌")' >> "$GITHUB_OUTPUT"
+          echo 'PLAN_STATUS=$([[ ${{ env.PLAN_STATUS }} == "success" ]] && echo "✅" || echo "❌")' >> "$GITHUB_OUTPUT"
       - name: Add comment
         uses: thollander/actions-comment-pull-request@v2
         env:
-          INIT_STATUS: $([[ ${{ env.INIT_STATUS }} == "success" ]] && echo "✅" || echo "❌")
-          PLAN_STATUS: $([[ ${{ env.PLAN_STATUS }} == "success" ]] && echo "✅" || echo "❌")
+          INIT_STATUS: ${{ env.INIT_STATUS }}
+          PLAN_STATUS: ${{ env.PLAN_STATUS }}
           PLAN: ${{ needs.terraform-plan.outputs.plan }}
         with:
           comment_tag: execution
