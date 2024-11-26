@@ -16,7 +16,7 @@ jobs:
         uses: hashicorp/setup-packer@v3
       - name: Packer init and build
         run: |
-          ./scripts/packer.sh -no-color
+          ./scripts/packer.sh -color=false
         env:
           HCLOUD_TOKEN: ${{ secrets.HCLOUD_TOKEN }}
           HCLOUD_DNS_TOKEN: ${{ secrets.HCLOUD_DNS_TOKEN }}
