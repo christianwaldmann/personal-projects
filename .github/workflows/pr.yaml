@@ -31,8 +31,11 @@ jobs:
         id: plan
         run: |
           terraform_plan=$(./scripts/terraform.sh plan -no-color)
-          echo "plan=${terraform_plan}" >> "$GITHUB_OUTPUT"
-
+          {
+            echo "plan<<EOF"
+            echo "$terraform_plan"
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
         env:
           HCLOUD_TOKEN: ${{ secrets.HCLOUD_TOKEN }}
           HCLOUD_DNS_TOKEN: ${{ secrets.HCLOUD_DNS_TOKEN }}
