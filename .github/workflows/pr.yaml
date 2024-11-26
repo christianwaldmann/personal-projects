@@ -57,11 +57,15 @@ jobs:
         env:
           INIT_STATUS: ${{ needs.terraform-plan.outputs.init-status }}
           PLAN_STATUS: ${{ needs.terraform-plan.outputs.plan-status }}
+          PLAN: ${{ needs.terraform-plan.outputs.plan }}
         run: |
-          INIT_STATUS_ICON=$([[ "$INIT_STATUS" == "success" ]] && echo "✅" || echo "❌")
-          echo "INIT_STATUS_ICON=$INIT_STATUS_ICON" >> "$GITHUB_OUTPUT"
-          PLAN_STATUS_ICON=$([[ "$PLAN_STATUS" == "success" ]] && echo "✅" || echo "❌")
-          echo "PLAN_STATUS_ICON=$PLAN_STATUS_ICON" >> "$GITHUB_OUTPUT"
+          icon=$([[ "$INIT_STATUS" == "success" ]] && echo "✅" || echo "❌")
+          echo "INIT_STATUS_TEXT=$icon" >> "$GITHUB_OUTPUT"
+          
+          icon=$([[ "$PLAN_STATUS" == "success" ]] && echo "✅" || echo "❌")
+          updates=$(echo "$PLAN" | grep -oP "^Plan: \K.*")
+          text="${icon} ${updates}"
+          echo "PLAN_STATUS_TEXT=$text" >> "$GITHUB_OUTPUT"
       - name: Add comment
         uses: thollander/actions-comment-pull-request@v2
         env:
@@ -69,8 +73,8 @@ jobs:
         with:
           comment_tag: execution
           message: |
-            #### Terraform Init: `${{ steps.prepare.outputs.INIT_STATUS_ICON }}`
-            #### Terraform Plan: `${{ steps.prepare.outputs.PLAN_STATUS_ICON }}`
+            #### Terraform Init: `${{ steps.prepare.outputs.INIT_STATUS_TEXT }}`
+            #### Terraform Plan: `${{ steps.prepare.outputs.PLAN_STATUS_TEXT }}`
             
             <details>
             <summary>Show Plan</summary>
