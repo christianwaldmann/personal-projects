@@ -28,10 +28,10 @@ jobs:
         id: plan
         run: |
           ./scripts/terraform.sh plan -no-color -out terraform-plan.txt
-          plan=$(cat terraform-plan.txt)
+          cat "terraform/terraform-plan.txt"
           {
             echo "plan<<EOF"
-            echo "$terraform_plan"
+            cat "terraform/terraform-plan.txt"
             echo "EOF"
           } >> "$GITHUB_OUTPUT"
         env:
