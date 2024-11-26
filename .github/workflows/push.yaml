@@ -62,11 +62,9 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: terraform-plan.txt
-          path: terraform/terraform-plan.txt
+          path: terraform/
       - name: Terraform apply
         run: |
-          pwd
-          ls -la
           ./scripts/terraform.sh apply terraform-plan.txt
         env:
           HCLOUD_TOKEN: ${{ secrets.HCLOUD_TOKEN }}
