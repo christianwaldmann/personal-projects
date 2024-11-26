@@ -61,8 +61,8 @@ jobs:
         with:
           comment_tag: execution
           message: |
-            #### Terraform Initialization: `$INIT_STATUS`
-            #### Terraform Plan: `$PLAN_STATUS`
+            #### Terraform Init: `$([[ ${{ env.INIT_STATUS }} == "success" ]] && echo "✅" || echo "❌")`
+            #### Terraform Plan: `$([[ ${{ env.PLAN_STATUS }} == "success" ]] && echo "✅" || echo "❌")`
             
             <details>
             <summary>Show Plan</summary>
