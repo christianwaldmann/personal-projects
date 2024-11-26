@@ -28,12 +28,6 @@ jobs:
         id: plan
         run: |
           ./scripts/terraform.sh plan -no-color -out terraform-plan.txt
-          cat "terraform/terraform-plan.txt"
-          {
-            echo "plan<<EOF"
-            cat "terraform/terraform-plan.txt"
-            echo "EOF"
-          } >> "$GITHUB_OUTPUT"
         env:
           HCLOUD_TOKEN: ${{ secrets.HCLOUD_TOKEN }}
           HCLOUD_DNS_TOKEN: ${{ secrets.HCLOUD_DNS_TOKEN }}
@@ -44,6 +38,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: terraform-plan.txt
+          path: terraform/terraform-plan.txt
 
   terraform-apply:
     runs-on: ubuntu-latest
@@ -53,6 +48,15 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: terraform-plan.txt
+          path: terraform-plan.txt
       - name: Terraform apply
         run: |
+          pwd
+          ls -la
           ./scripts/terraform.sh apply terraform-plan.txt
+        env:
+          HCLOUD_TOKEN: ${{ secrets.HCLOUD_TOKEN }}
+          HCLOUD_DNS_TOKEN: ${{ secrets.HCLOUD_DNS_TOKEN }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          SSH_PUBLIC_KEY: ${{ secrets.SSH_PUBLIC_KEY }}
