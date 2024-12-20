@@ -1,31 +1,22 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# mount volume
+# Wait for volume to be mounted
+sleep 20
+
 while true; do
-    directory=/dev/disk/by-id
-    if [ ! -d "$directory" ]; then
-        echo "Waiting for $directory..."
+    mountpoint=$(mount | grep "HC_Volume" | awk '{print $3}')
+    if [[ -z "$mountpoint" ]]; then
+        echo "Waiting for mountpoint to be available..."
         sleep 10
     else
         break
     fi
 done
 
-while true; do
-    volume_id=$(ls /dev/disk/by-id 2>/dev/null | grep "scsi-0HC_Volume")
-    if [[ -z "$volume_id" ]]; then
-        echo "Waiting for mountable volume..."
-        sleep 10
-    else
-        break
-    fi
-done
-
-echo "Mounting volume $volume_id"
+# Create symlink to mounted volume
 mkdir -p /mnt/data
-mount "/dev/disk/by-id/$volume_id" /mnt/data
-echo "/dev/disk/by-id/$volume_id /mnt/data ext4 defaults 0 0" >> /etc/fstab
+ln -s $mountpoint /mnt/data
 
 # update config
 if [ -f /usr/local/bin/update-config ]; then
