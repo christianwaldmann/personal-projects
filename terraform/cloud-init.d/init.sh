@@ -2,12 +2,10 @@
 set -euo pipefail
 
 # Wait for volume to be mounted
-sleep 20
-
 while true; do
-    mountpoint=$(mount | grep "HC_Volume" | awk '{print $3}')
-    if [[ -z "$mountpoint" ]]; then
-        echo "Waiting for mountpoint to be available..."
+    mountpoint=$(findmnt -rno TARGET /mnt/HC_Volume_* || true)
+    if [[ -z "$${mountpoint:-}" ]]; then
+        echo "Waiting for volume to be mounted..."
         sleep 10
     else
         break
@@ -15,7 +13,6 @@ while true; do
 done
 
 # Create symlink to mounted volume
-mkdir -p /mnt/data
 ln -s $mountpoint /mnt/data
 
 # update config
