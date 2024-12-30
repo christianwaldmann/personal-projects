@@ -5,6 +5,12 @@ package_update: false
 package_upgrade: false
 package_reboot_if_required: false
 
+# Lock down ssh
+ssh_pwauth: false
+
+runcmd:
+  - systemctl restart sshd
+
 write_files:
 - path: /etc/profile
   append: true
