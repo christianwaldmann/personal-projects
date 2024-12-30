@@ -8,8 +8,8 @@ package_reboot_if_required: false
 # Lock down ssh
 ssh_pwauth: false
 
-runcmd:
-  - systemctl restart sshd
+# Don't use runcmd, because otherwise automounting the volume won't work anymore, see:
+# https://github.com/hetznercloud/terraform-provider-hcloud/issues/473
 
 write_files:
 - path: /etc/profile
