@@ -8,14 +8,10 @@ TODO: describe usage
 
 - bootstrap
 - backups: litestream to s3 bucket?
-- github actions -> apply terraform nightly (store secrets in GH secrets) or on pushes to main, plan on PRs
 - renovate/dependabot
 - manage dns zone completely via terraform
 - tag all resources with the source repo
 - check if "env_file" can be removed from docker compose file
 - replace domain in docker-compose with envsubst
 - sandbox env
-- troubleshoot if (and if yes why) mounting the volume fails after the first server with a new packer build
-- server hardening: fail2ban, disable root login, etc.
-
-- note: dependencies: 1. ssh key, 2. aws creds
+- traefik monitoring with crowdsec

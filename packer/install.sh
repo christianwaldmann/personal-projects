@@ -14,6 +14,14 @@ apt-get install --yes \
     unzip \
     jq
 
+# crowdsec
+curl -fsSL https://packagecloud.io/crowdsec/crowdsec/gpgkey | gpg --dearmor > /etc/apt/keyrings/crowdsec.gpg
+echo "deb [signed-by=/etc/apt/keyrings/crowdsec.gpg] https://packagecloud.io/crowdsec/crowdsec/any/ any main" \
+    > "/etc/apt/sources.list.d/crowdsec.list"
+
+apt-get update
+apt-get install --yes crowdsec crowdsec-firewall-bouncer-iptables
+
 # aws cli
 curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
 unzip awscliv2.zip
@@ -31,7 +39,7 @@ add-apt-repository \
 
 apt-get update
 apt-get dist-upgrade --yes
-apt-get install docker-ce docker-ce-cli containerd.io docker-compose --yes
+apt-get install --yes docker-ce docker-ce-cli containerd.io docker-compose
 
 systemctl enable docker
 systemctl start docker
