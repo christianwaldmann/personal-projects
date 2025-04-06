@@ -47,7 +47,7 @@ services:
     restart: unless-stopped
 
   bookmarks-backend:
-    image: ghcr.io/christianwaldmann/bookmarks-backend:0.0.5
+    image: ghcr.io/christianwaldmann/bookmarks-backend:0.0.6
     container_name: bookmarks-backend
     restart: unless-stopped
     volumes:
