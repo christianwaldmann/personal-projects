@@ -36,7 +36,7 @@ services:
       - "traefik.http.routers.geometrierechner.tls.certresolver=myresolver"
 
   bookmarks-frontend:
-    image: ghcr.io/christianwaldmann/bookmarks-frontend:0.0.4
+    image: ghcr.io/christianwaldmann/bookmarks-frontend:0.0.5
     container_name: bookmarks-frontend
     env_file: .env
     labels:
