@@ -18,3 +18,5 @@ jobs:
         run: |
           chmod +x ./scripts/hello.sh
           ./scripts/hello.sh
+        env:
+          HCLOUD_TOKEN: ${{ secrets.HCLOUD_TOKEN }}
