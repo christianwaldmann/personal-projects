@@ -14,3 +14,4 @@ export TF_VAR_hcloud_dns_token=def
 export TF_VAR_ssh_public_key=xyz
 
 echo "hello from script"
+terraform "$@"
