@@ -15,7 +15,6 @@ jobs:
       - name: Terraform setup
         uses: hashicorp/setup-terraform@v1
       - name: Terraform init
-        id: init
         run: |
           ./scripts/terraform.sh init -no-color
         env:
