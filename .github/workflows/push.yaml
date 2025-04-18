@@ -16,4 +16,4 @@ jobs:
         uses: hashicorp/setup-terraform@v1
       - name: Terraform init
         run: |
-          echo "hello"
+          ./scripts/hello.sh
