@@ -8,10 +8,6 @@ on:
 jobs:
   terraform-plan:
     runs-on: ubuntu-latest
-    outputs:
-      init-status: ${{ steps.init.outcome }}
-      plan-status: ${{ steps.plan.outcome }}
-      plan: ${{ steps.plan.outputs.plan }}
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
