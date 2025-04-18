@@ -16,11 +16,4 @@ jobs:
         uses: hashicorp/setup-terraform@v1
       - name: Terraform init
         run: |
-          res=$(./scripts/terraform.sh init -no-color)
-        env:
-          HCLOUD_TOKEN: ${{ secrets.HCLOUD_TOKEN }}
-          HCLOUD_DNS_TOKEN: ${{ secrets.HCLOUD_DNS_TOKEN }}
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          SSH_PUBLIC_KEY: ${{ secrets.SSH_PUBLIC_KEY }}
- 
+          echo "hello"
