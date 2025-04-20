@@ -4,9 +4,14 @@ updates:
   - package-ecosystem: "terraform"
     directory: "/terraform"
     schedule:
-      interval: "weekly"
+      interval: "daily"
 
-  - package-ecosystem: "docker"
+  - package-ecosystem: "docker-compose"
     directory: "/config"
     schedule:
-      interval: "weekly"
+      interval: "daily"
+
+  - package-ecosystem: "github-actions"
+    directory: "/config"
+    schedule:
+      interval: "daily"
