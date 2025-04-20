@@ -60,7 +60,7 @@ services:
       - "traefik.http.routers.bookmarks-backend.tls.certresolver=myresolver"
 
   homepage:
-    image: ghcr.io/christianwaldmann/homepage:v0.0.1
+    image: ghcr.io/christianwaldmann/homepage:0.0.2
     container_name: homepage
     env_file: .env
     labels:
