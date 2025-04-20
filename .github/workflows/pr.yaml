@@ -4,6 +4,9 @@ on:
   pull_request:
     branches:
       - master
+  permissions:
+    contents: write
+    pull-requests: write
 
 permissions:
   contents: write
