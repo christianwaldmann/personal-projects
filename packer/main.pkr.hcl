@@ -20,20 +20,21 @@ variable "aws_secret_access_key" {
   sensitive = true
 }
 
-source "hcloud" "base-amd64" {
+source "hcloud" "this" {
   image         = "ubuntu-24.04"
   location      = "fsn1"
   server_type   = "cx22"
   user_data     = ""
   ssh_username  = "root"
-  snapshot_name = "base-{{isotime `10060102150405`}}"
+  snapshot_name = "personal-projects-base-{{isotime `2006-01-02`}}"
   snapshot_labels = {
     source = "packer"
+    name = "personal-projects"
   }
 }
 
 build {
-  sources = ["source.hcloud.base-amd64"]
+  sources = ["source.hcloud.this"]
 
   provisioner "shell" {
     execute_command = "sudo -S env {{ .Vars }} {{ .Path }}"
