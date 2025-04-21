@@ -6,11 +6,6 @@ updates:
     schedule:
       interval: "daily"
 
-  - package-ecosystem: "terraform"
-    directory: "/packer"
-    schedule:
-      interval: "daily"
-
   - package-ecosystem: "docker-compose"
     directory: "/config"
     schedule:
