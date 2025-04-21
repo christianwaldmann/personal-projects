@@ -1,6 +1,6 @@
 
 resource "hcloud_server" "projects-server" {
-    name = "projects-server"
+    name = "personal-projects"
     server_type = "cx22"
     image = data.hcloud_image.this.id
     location = "fsn1"
