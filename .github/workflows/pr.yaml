@@ -96,10 +96,14 @@ jobs:
       - terraform-plan
       - comment
     steps:
+      - name: Fetch Dependabot metadata
+        id: metadata
+        uses: dependabot/fetch-metadata@v2
       - name: Authenticate cli with a PAT
         run: echo "${{ secrets.DEPENDABOT_TOKEN }}" | gh auth login --with-token
         # use PAT to trigger other actions, see: https://github.com/dependabot/fetch-metadata/issues/111
-      - name: Auto-merge Dependabot PRs
+      - name: Auto-merge non-major dependency updates
+        if: steps.metadata.outputs.update-type != 'version-update:semver-major'
         run: gh pr merge --auto --merge "$PR_URL"
         env:
           PR_URL: ${{github.event.pull_request.html_url}}
