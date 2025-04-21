@@ -12,7 +12,7 @@ resource "hcloud_network_subnet" "this" {
 }
 
 resource "hcloud_server_network" "this" {
-    server_id = hcloud_server.projects-server.id
+    server_id = hcloud_server.this.id
     network_id = hcloud_network.this.id
     ip = "10.0.1.2"
 }

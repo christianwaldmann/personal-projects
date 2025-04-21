@@ -1,5 +1,5 @@
 
-resource "hcloud_server" "projects-server" {
+resource "hcloud_server" "this" {
     name = "personal-projects"
     server_type = "cx22"
     image = data.hcloud_image.this.id
