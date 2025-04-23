@@ -20,6 +20,9 @@ if [ -f /usr/local/bin/update-config ]; then
     /usr/local/bin/update-config
 fi
 
+# setup backup
+echo "30 2 * * * root /usr/local/bin/backup >> /var/log/backup.log 2>&1" >> /etc/crontab
+
 # create docker-compose.yaml and run
 cd /app
 echo "${base64encode(docker_compose_file)}" | base64 -d > /app/docker-compose.yaml

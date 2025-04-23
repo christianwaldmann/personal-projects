@@ -19,6 +19,14 @@ Infrastructure and configuration to host my personal projects on Hetzner Cloud
     - Dependabot creates PRs for dependency updates; non-major updates are merged automatically
     - Traefik handles TLS certificates
 
+## Backups
+
+Backups use the Hetzner Storagebox. There are some manual steps required to set it up:
+1. Create SSH key to access Storagebox: `ssh-keygen -f ~/.ssh/storagebox -N ""`
+2. Upload public SSH key to Storagebox: `cat ~/.ssh/storagebox.pub | ssh -p 23 <username>@<username>.your-storagebox.de install-ssh-key`
+3. Add private SSH key to Github secrets
+4. Create directory in Storagebox: `mkdir -p /home/backups/personal-projects`
+
 ## TODO
 
 - bootstrap
@@ -29,3 +37,7 @@ Infrastructure and configuration to host my personal projects on Hetzner Cloud
 - replace domain in docker-compose with envsubst
 - sandbox env
 - traefik monitoring with crowdsec
+- use lockfile instead of dynamo db for terraform state
+- backup with borgbackup + storagebox
+- 
+- use ssm for SSH_PUBLIC_KEY instead of passing
