@@ -24,6 +24,7 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           SSH_PUBLIC_KEY: ${{ secrets.SSH_PUBLIC_KEY }}
+          STORAGEBOX_SSH_PRIVATE_KEY: ${{ secrets.STORAGEBOX_SSH_PRIVATE_KEY }}
       - name: Terraform plan
         id: plan
         run: |
@@ -34,6 +35,7 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           SSH_PUBLIC_KEY: ${{ secrets.SSH_PUBLIC_KEY }}
+          STORAGEBOX_SSH_PRIVATE_KEY: ${{ secrets.STORAGEBOX_SSH_PRIVATE_KEY }}
       - name: Upload plan
         uses: actions/upload-artifact@v4
         with:
@@ -58,6 +60,7 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           SSH_PUBLIC_KEY: ${{ secrets.SSH_PUBLIC_KEY }}
+          STORAGEBOX_SSH_PRIVATE_KEY: ${{ secrets.STORAGEBOX_SSH_PRIVATE_KEY }}
       - name: Download plan
         uses: actions/download-artifact@v4
         with:
@@ -72,3 +75,4 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           SSH_PUBLIC_KEY: ${{ secrets.SSH_PUBLIC_KEY }}
+          STORAGEBOX_SSH_PRIVATE_KEY: ${{ secrets.STORAGEBOX_SSH_PRIVATE_KEY }}
