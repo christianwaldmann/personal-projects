@@ -20,6 +20,15 @@ write_files:
   permissions: '0755'
   encoding: b64
   content: ${base64encode(update_config_script)}
+- path: /root/.ssh/storagebox
+  permissions: '0600'
+  encoding: b64
+  content: |
+    ${storagebox_ssh_private_key}
+- path: /usr/local/bin/backup
+  permissions: '0755'
+  encoding: b64
+  content: ${base64encode(backup_script)}
 
 output:
   all: '| tee -a /var/log/cloud-init-output.log'
