@@ -15,7 +15,7 @@ terraform {
         bucket = "hetzner-terraform-state"
         key = "personal-projects.tfstate"
         region = "eu-central-1"
-        dynamodb_table = "terraform_state"
+        use_lockfile = true
     }
 }
 
