@@ -30,14 +30,10 @@ Backups use the Hetzner Storagebox. There are some manual steps required to set 
 ## TODO
 
 - bootstrap
-- backups: litestream to s3 bucket? or hetzner storagebox with borg backup?
 - manage dns zone completely via terraform
 - tag all resources with the source repo
 - check if "env_file" can be removed from docker compose file
 - replace domain in docker-compose with envsubst
 - sandbox env
 - traefik monitoring with crowdsec
-- use lockfile instead of dynamo db for terraform state
-- backup with borgbackup + storagebox
-- 
 - use ssm for SSH_PUBLIC_KEY instead of passing
