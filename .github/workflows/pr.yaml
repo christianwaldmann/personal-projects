@@ -19,7 +19,7 @@ jobs:
       plan: ${{ steps.plan.outputs.plan }}
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Terraform setup
         uses: hashicorp/setup-terraform@v3
       - name: Terraform init
