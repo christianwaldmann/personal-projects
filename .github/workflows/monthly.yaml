@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Packer setup
         uses: hashicorp/setup-packer@v3
       - name: Packer init and build
@@ -28,7 +28,7 @@ jobs:
     needs: packer
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Terraform setup
         uses: hashicorp/setup-terraform@v3
       - name: Terraform init
@@ -64,7 +64,7 @@ jobs:
     needs: terraform-plan
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Terraform setup
         uses: hashicorp/setup-terraform@v3
       - name: Terraform init
