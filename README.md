@@ -4,9 +4,7 @@ Infrastructure and configuration to host my personal projects on Hetzner Cloud
 
 ## Architecture
 
-- Single Hetzner Server
-- Traefik as reverse proxy
-- Services run as Docker containers
+![Architecture diagram](images/architecture.svg)
 
 ## Features
 
