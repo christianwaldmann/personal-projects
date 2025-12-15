@@ -79,7 +79,7 @@ jobs:
           SSH_PUBLIC_KEY: ${{ secrets.SSH_PUBLIC_KEY }}
           STORAGEBOX_SSH_PRIVATE_KEY: ${{ secrets.STORAGEBOX_SSH_PRIVATE_KEY }}
       - name: Download plan
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v7
         with:
           name: terraform-plan.txt
           path: terraform/
