@@ -23,7 +23,7 @@ variable "aws_secret_access_key" {
 source "hcloud" "this" {
   image         = "ubuntu-24.04"
   location      = "fsn1"
-  server_type   = "cx22"
+  server_type   = "cx23"
   user_data     = ""
   ssh_username  = "root"
   snapshot_name = "personal-projects-base-{{isotime `2006-01-02`}}"
