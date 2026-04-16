@@ -1,7 +1,7 @@
 
 resource "hcloud_server" "this" {
     name = "personal-projects"
-    server_type = "cx22"
+    server_type = "cx23"
     image = data.hcloud_image.this.id
     location = "fsn1"
     ssh_keys = [
