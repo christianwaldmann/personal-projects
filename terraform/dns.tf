@@ -1,6 +1,13 @@
 
+resource "hcloud_zone" "this" {
+    name = "christianw.de"
+    mode = "primary"
+    ttl  = 3600
+    delete_protection = true
+}
+
 resource "hcloud_zone_rrset" "geometrierechner" {
-    zone    = data.hcloud_zone.this.name
+    zone    = resource.hcloud_zone.this.name
     type    = "A"
     name    = "geometrierechner"
     records = [
@@ -9,7 +16,7 @@ resource "hcloud_zone_rrset" "geometrierechner" {
 }
 
 resource "hcloud_zone_rrset" "bookmarks" {
-    zone    = data.hcloud_zone.this.name
+    zone    = resource.hcloud_zone.this.name
     type    = "A"
     name    = "bookmarks"
     records = [
@@ -18,7 +25,7 @@ resource "hcloud_zone_rrset" "bookmarks" {
 }
 
 resource "hcloud_zone_rrset" "bookmarks-api" {
-    zone    = data.hcloud_zone.this.name
+    zone    = resource.hcloud_zone.this.name
     type    = "A"
     name    = "api.bookmarks"
     records = [
@@ -27,7 +34,7 @@ resource "hcloud_zone_rrset" "bookmarks-api" {
 }
 
 resource "hcloud_zone_rrset" "homepage" {
-    zone    = data.hcloud_zone.this.name
+    zone    = resource.hcloud_zone.this.name
     type    = "A"
     name    = "@"
     records = [
