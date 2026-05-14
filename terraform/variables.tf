@@ -1,12 +1,12 @@
 
 variable "hcloud_token" {
-    sensitive = true
+  sensitive = true
 }
 
 variable "ssh_public_key" {
-    sensitive = true
+  sensitive = true
 }
 
 variable "storagebox_ssh_private_key" {
-    sensitive = true
+  sensitive = true
 }
