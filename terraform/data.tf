@@ -4,6 +4,7 @@ data "hcloud_image" "this" {
     most_recent = true
 }
 
-data "hetznerdns_zone" "this" {
+data "hcloud_zone" "this" {
     name = "christianw.de"
 }
+
