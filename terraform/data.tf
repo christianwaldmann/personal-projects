@@ -4,7 +4,3 @@ data "hcloud_image" "this" {
     most_recent = true
 }
 
-data "hcloud_zone" "this" {
-    name = "christianw.de"
-}
-
