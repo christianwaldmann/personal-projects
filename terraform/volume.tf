@@ -6,8 +6,9 @@ resource "hcloud_volume" "this" {
   delete_protection = true # this disables the "delete" button in the Hetzner UI
 
   # Attach volume to server
-  server_id = hcloud_server.this.id
-  automount = true
+  server_id         = hcloud_server.this.id
+  automount         = true
+  labels            = local.resource_labels
 
   # prevent terraform from deleting this volume
   lifecycle {
