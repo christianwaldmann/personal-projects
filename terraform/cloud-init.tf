@@ -3,7 +3,7 @@ locals {
 
   })
   docker_compose_file = templatefile("${path.module}/../config/docker-compose.yaml", {
-
+    DOMAIN = "$${DOMAIN}"
   })
   backup_script = templatefile("${path.module}/cloud-init.d/backup.sh", {
 
