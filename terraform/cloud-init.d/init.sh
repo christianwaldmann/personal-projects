@@ -15,16 +15,15 @@ done
 # Create symlink to mounted volume
 ln -s $mountpoint /mnt/data
 
-# update config
+# create docker-compose.yaml
+cd /app
+echo "${base64encode(docker_compose_file)}" | base64 -d > /app/docker-compose.yaml
+chmod 0755 /app/docker-compose.yaml
+
+# update config (fetches SSM vars including DOMAIN into .env, then runs docker-compose up)
 if [ -f /usr/local/bin/update-config ]; then
     /usr/local/bin/update-config
 fi
 
 # setup backup
 echo "30 2 * * * root /usr/local/bin/backup >> /var/log/backup.log 2>&1" >> /etc/crontab
-
-# create docker-compose.yaml and run
-cd /app
-echo "${base64encode(docker_compose_file)}" | base64 -d > /app/docker-compose.yaml
-chmod 0755 /app/docker-compose.yaml
-docker-compose up -d

@@ -31,7 +31,7 @@ services:
     restart: unless-stopped
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.geometrierechner.rule=Host(`geometrierechner.christianw.de`)"
+      - "traefik.http.routers.geometrierechner.rule=Host(`geometrierechner.${DOMAIN}`)"
       - "traefik.http.routers.geometrierechner.entrypoints=websecure"
       - "traefik.http.routers.geometrierechner.tls.certresolver=myresolver"
 
@@ -41,7 +41,7 @@ services:
     env_file: .env
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.bookmarks-frontend.rule=Host(`bookmarks.christianw.de`)"
+      - "traefik.http.routers.bookmarks-frontend.rule=Host(`bookmarks.${DOMAIN}`)"
       - "traefik.http.routers.bookmarks-frontend.entrypoints=websecure"
       - "traefik.http.routers.bookmarks-frontend.tls.certresolver=myresolver"
     restart: unless-stopped
@@ -55,7 +55,7 @@ services:
     env_file: .env
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.bookmarks-backend.rule=Host(`api.bookmarks.christianw.de`)"
+      - "traefik.http.routers.bookmarks-backend.rule=Host(`api.bookmarks.${DOMAIN}`)"
       - "traefik.http.routers.bookmarks-backend.entrypoints=websecure"
       - "traefik.http.routers.bookmarks-backend.tls.certresolver=myresolver"
 
@@ -65,7 +65,7 @@ services:
     env_file: .env
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.homepage.rule=Host(`christianw.de`)"
+      - "traefik.http.routers.homepage.rule=Host(`${DOMAIN}`)"
       - "traefik.http.routers.homepage.entrypoints=websecure"
       - "traefik.http.routers.homepage.tls.certresolver=myresolver"
     restart: unless-stopped
