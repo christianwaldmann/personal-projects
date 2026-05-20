@@ -2,6 +2,7 @@
 resource "hcloud_network" "this" {
   name     = "private-network"
   ip_range = "10.0.0.0/8"
+  labels   = local.resource_labels
 }
 
 resource "hcloud_network_subnet" "this" {

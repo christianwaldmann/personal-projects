@@ -1,6 +1,7 @@
 
 resource "hcloud_firewall" "basic" {
-  name = "basic"
+  name   = "basic"
+  labels = local.resource_labels
 
   rule {
     description = "allow ssh"

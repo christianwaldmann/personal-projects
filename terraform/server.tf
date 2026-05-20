@@ -11,4 +11,5 @@ resource "hcloud_server" "this" {
   firewall_ids = [
     hcloud_firewall.basic.id
   ]
+  labels = local.resource_labels
 }
