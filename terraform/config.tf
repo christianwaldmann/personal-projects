@@ -1,4 +1,5 @@
 
+
 terraform {
   required_providers {
     hcloud = {
@@ -7,6 +8,7 @@ terraform {
     }
   }
 
+
   backend "s3" {
     bucket       = "hetzner-terraform-state"
     key          = "personal-projects.tfstate"
@@ -14,6 +16,7 @@ terraform {
     use_lockfile = true
   }
 }
+
 
 provider "hcloud" {
   token = var.hcloud_token
