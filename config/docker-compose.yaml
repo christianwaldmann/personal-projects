@@ -69,3 +69,29 @@ services:
       - "traefik.http.routers.homepage.entrypoints=websecure"
       - "traefik.http.routers.homepage.tls.certresolver=myresolver"
     restart: unless-stopped
+
+  freshrss:
+    image: freshrss/freshrss:1.27.0
+    container_name: freshrss
+    logging:
+      options:
+        max-size: 10m
+    volumes:
+      - /mnt/data/freshrss/data:/var/www/FreshRSS/data
+      - /mnt/data/freshrss/extensions:/var/www/FreshRSS/extensions
+    environment:
+      TZ: Europe/Berlin
+      CRON_MIN: "3,33"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.freshrss.rule=Host(`news.${DOMAIN}`)"
+      - "traefik.http.routers.freshrss.entrypoints=websecure"
+      - "traefik.http.routers.freshrss.tls.certresolver=myresolver"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "cli/health.php"]
+      timeout: 10s
+      start_period: 60s
+      start_interval: 11s
+      interval: 75s
+      retries: 3
