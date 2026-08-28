@@ -42,3 +42,11 @@ resource "hcloud_zone_rrset" "homepage" {
   ]
 }
 
+resource "hcloud_zone_rrset" "news" {
+  zone = resource.hcloud_zone.this.name
+  type = "A"
+  name = "news"
+  records = [
+    { value = hcloud_server.this.ipv4_address, comment = "managed by terraform" }
+  ]
+}
