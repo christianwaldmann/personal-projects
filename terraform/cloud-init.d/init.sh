@@ -20,7 +20,7 @@ cd /app
 echo "${base64encode(docker_compose_file)}" | base64 -d > /app/docker-compose.yaml
 chmod 0755 /app/docker-compose.yaml
 
-# update config (fetches SSM vars including DOMAIN into .env, then runs docker-compose up)
+# update config (fetches SSM vars including DOMAIN into .env, then runs docker compose up)
 if [ -f /usr/local/bin/update-config ]; then
     /usr/local/bin/update-config
 fi
