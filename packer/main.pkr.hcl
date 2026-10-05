@@ -26,7 +26,7 @@ source "hcloud" "this" {
   server_type   = "cx23"
   user_data     = ""
   ssh_username  = "root"
-  snapshot_name = "personal-projects-base-{{isotime `2006-01-02`}}"
+  snapshot_name = "personal-projects-base-{{isotime `2006-01-02-150405`}}"
   snapshot_labels = {
     source = "packer"
     name   = "personal-projects"
