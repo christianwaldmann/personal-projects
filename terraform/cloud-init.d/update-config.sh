@@ -46,5 +46,5 @@ function get_ssm_parameters {
 get_ssm_parameters "$${SSM_VARS[@]}"
 
 if [ -f docker-compose.yaml ]; then
-    docker-compose up -d
+    docker compose up -d
 fi

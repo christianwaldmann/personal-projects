@@ -16,12 +16,12 @@ variable "aws_access_key_id" {
 }
 
 variable "aws_secret_access_key" {
-  type = string
+  type      = string
   sensitive = true
 }
 
 source "hcloud" "this" {
-  image         = "ubuntu-24.04"
+  image         = "ubuntu-26.04"
   location      = "fsn1"
   server_type   = "cx23"
   user_data     = ""
@@ -29,7 +29,7 @@ source "hcloud" "this" {
   snapshot_name = "personal-projects-base-{{isotime `2006-01-02`}}"
   snapshot_labels = {
     source = "packer"
-    name = "personal-projects"
+    name   = "personal-projects"
   }
 }
 
@@ -45,12 +45,12 @@ build {
 
   provisioner "file" {
     destination = "/app/"
-    source = "../config/docker-compose.yaml"
+    source      = "../config/docker-compose.yaml"
   }
 
   provisioner "file" {
     destination = "/app/"
-    source = "../config/.env"
+    source      = "../config/.env"
   }
 
   provisioner "shell" {
@@ -66,6 +66,6 @@ build {
 
   provisioner "shell" {
     execute_command = "sudo -S env {{ .Vars }} {{ .Path }}"
-    script = "install.sh"
+    script          = "install.sh"
   }
 }

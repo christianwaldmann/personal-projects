@@ -7,7 +7,7 @@ apt-get install --yes \
     ca-certificates \
     curl \
     software-properties-common \
-    gnupg-agent \
+    gnupg \
     vim \
     tmux \
     git \
@@ -29,19 +29,15 @@ unzip awscliv2.zip
 rm -r aws awscliv2.zip
 
 # docker
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
-apt-key fingerprint 0EBFCD88
-
-add-apt-repository \
-   "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
-   $(lsb_release -cs) \
-   stable"
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" \
+    > /etc/apt/sources.list.d/docker.list
 
 apt-get update
 apt-get dist-upgrade --yes
-apt-get install --yes docker-ce docker-ce-cli containerd.io docker-compose
+apt-get install --yes docker-ce docker-ce-cli containerd.io docker-compose-plugin
 
 systemctl enable docker
 systemctl start docker
 
-docker-compose -f /app/docker-compose.yaml pull --quiet
+docker compose -f /app/docker-compose.yaml pull --quiet
