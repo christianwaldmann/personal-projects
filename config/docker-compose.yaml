@@ -71,7 +71,7 @@ services:
     restart: unless-stopped
 
   freshrss:
-    image: freshrss/freshrss:1.30.0
+    image: freshrss/freshrss:1.30.1
     container_name: freshrss
     logging:
       options:
